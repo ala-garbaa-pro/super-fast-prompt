@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="logo.svg" alt="Super Fast Prompts Logo" width="128" height="128">
+  <img src="logo.png" alt="Super Fast Prompts Logo" width="128" height="128">
 
 # Super Fast Prompts
 
