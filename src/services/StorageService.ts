@@ -24,11 +24,22 @@ export class StorageService {
    */
   getSaveLocation(): string {
     const config = vscode.workspace.getConfiguration("superFastPrompts");
-    const configuredPath = config.get<string>("saveLocation");
+    let configuredPath = config.get<string>("saveLocation");
 
     if (configuredPath) {
+      const os = require("os");
       // Expand ~ to home directory
-      return configuredPath.replace(/^~/, require("os").homedir());
+      configuredPath = configuredPath.replace(/^~/, os.homedir());
+
+      // Handle Git Bash style paths on Windows (e.g., /c/Users/...)
+      if (os.platform() === "win32" && /^\/[a-zA-Z]\//.test(configuredPath)) {
+        configuredPath = configuredPath.replace(
+          /^\/([a-zA-Z])\//,
+          (match: string, drive: string) => `${drive}:/`
+        );
+      }
+
+      return path.normalize(configuredPath);
     }
 
     // Default location

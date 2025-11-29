@@ -3,6 +3,9 @@
   "displayName": "Super Fast Prompts",
   "description": "Sync prompts to your GitHub repo, copy and paste them easily, and manage categorized prompts",
   "version": "0.0.1",
+  "icon": "logo.png",
+  "publisher": "AlaGARBAA",
+  "pricing": "Free",
   "engines": {
     "vscode": "^1.104.0"
   },
@@ -17,7 +20,7 @@
         {
           "id": "super-fast-prompts",
           "title": "Super Fast Prompts",
-          "icon": "$(rocket)"
+          "icon": "logo.svg"
         }
       ]
     },
@@ -26,7 +29,7 @@
         {
           "id": "superFastPromptsView",
           "name": "Prompts",
-          "icon": "$(rocket)",
+          "icon": "logo.svg",
           "contextualTitle": "Super Fast Prompts"
         }
       ]
@@ -79,8 +82,8 @@
         "superFastPrompts.sync.autoSyncInterval": {
           "type": "number",
           "default": 300,
-          "minimum": 60,
-          "description": "Auto-sync interval in seconds (minimum 60)"
+          "minimum": 5,
+          "description": "Auto-sync interval in seconds (minimum 5)"
         },
         "superFastPrompts.sync.conflictResolution": {
           "type": "string",
