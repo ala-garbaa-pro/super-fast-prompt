@@ -4,7 +4,6 @@ import * as path from 'path';
 import * as fs from 'fs/promises';
 import * as os from 'os';
 import { GitHubAuthProvider } from '../auth/githubAuth';
-import { MarkdownSyncService } from './markdownSyncService';
 import { PromptData, ExtensionSettings } from '../types';
 
 export interface SyncOptions {
@@ -25,14 +24,12 @@ export class GitSyncManager {
     private statusBarItem: vscode.StatusBarItem;
     private autoSyncTimer?: NodeJS.Timeout;
     private fileWatcher?: vscode.FileSystemWatcher;
-    private markdownSyncService: MarkdownSyncService;
 
     constructor(
         private context: vscode.ExtensionContext
     ) {
         this.authProvider = new GitHubAuthProvider();
         this.statusBarItem = this.createStatusBar();
-        this.markdownSyncService = new MarkdownSyncService();
     }
 
     /**
@@ -900,21 +897,6 @@ Thumbs.db
         }
     }
 
-    /**
-     * Copy prompts file to repository
-     * DEPRECATED: We now work directly in the repository
-     */
-    private async copyPromptsToRepo(): Promise<void> {
-        // No-op
-    }
-
-    /**
-     * Copy synced file from repository to prompts location
-     * DEPRECATED: We now work directly in the repository
-     */
-    private async copySyncedFileToPrompts(): Promise<void> {
-        // No-op
-    }
 
     /**
      * Generate commit message
