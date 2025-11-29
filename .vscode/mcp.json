@@ -1,0 +1,13 @@
+{
+  "servers": {
+    "MCP_DOCKER": {
+      "command": "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe",
+      "args": [
+        "mcp",
+        "gateway",
+        "run"
+      ],
+      "type": "stdio"
+    }
+  }
+}

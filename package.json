@@ -1,0 +1,348 @@
+{
+  "name": "super-fast-prompts",
+  "displayName": "Super Fast Prompts",
+  "description": "Sync prompts to your GitHub repo, copy and paste them easily, and manage categorized prompts",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.104.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "super-fast-prompts",
+          "title": "Super Fast Prompts",
+          "icon": "$(rocket)"
+        }
+      ]
+    },
+    "views": {
+      "super-fast-prompts": [
+        {
+          "id": "superFastPromptsView",
+          "name": "Prompts",
+          "icon": "$(rocket)",
+          "contextualTitle": "Super Fast Prompts"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Super Fast Prompts",
+      "properties": {
+        "superFastPrompts.saveLocation": {
+          "type": "string",
+          "default": "~/super-fast-prompts/private",
+          "description": "Location to save prompts and sync with Git. Use ~ for home directory.",
+          "markdownDescription": "Location to save prompts and sync with Git. This is both your working directory and Git repository. Use `~` for home directory."
+        },
+        "superFastPrompts.sync.enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable GitHub repository sync"
+        },
+        "superFastPrompts.sync.repositoryUrl": {
+          "type": "string",
+          "default": "",
+          "description": "GitHub repository URL (HTTPS format: https://github.com/username/repo.git)",
+          "markdownDescription": "GitHub repository URL. Use HTTPS format: `https://github.com/username/repo.git`"
+        },
+        "superFastPrompts.sync.branch": {
+          "type": "string",
+          "default": "main",
+          "description": "Branch name to sync with",
+          "enum": [
+            "main",
+            "master",
+            "develop"
+          ]
+        },
+        "superFastPrompts.sync.mode": {
+          "type": "string",
+          "enum": [
+            "manual",
+            "automatic",
+            "on-save"
+          ],
+          "default": "manual",
+          "description": "Sync mode",
+          "enumDescriptions": [
+            "Manual sync via command",
+            "Automatic sync at interval",
+            "Sync when prompts file is saved"
+          ]
+        },
+        "superFastPrompts.sync.autoSyncInterval": {
+          "type": "number",
+          "default": 300,
+          "minimum": 60,
+          "description": "Auto-sync interval in seconds (minimum 60)"
+        },
+        "superFastPrompts.sync.conflictResolution": {
+          "type": "string",
+          "enum": [
+            "ask",
+            "prefer-local",
+            "prefer-remote",
+            "manual"
+          ],
+          "default": "ask",
+          "description": "Conflict resolution strategy",
+          "enumDescriptions": [
+            "Ask user for each conflict",
+            "Automatically prefer local changes",
+            "Automatically prefer remote changes",
+            "Open merge editor for manual resolution"
+          ]
+        },
+        "superFastPrompts.sync.commitMessage": {
+          "type": "string",
+          "default": "Update prompts: ${timestamp}",
+          "description": "Commit message template (supports ${timestamp} placeholder)"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "super-fast-prompts.openSettings",
+        "title": "Super Fast Prompts: Open Settings",
+        "icon": "$(gear)"
+      },
+      {
+        "command": "super-fast-prompts.createCategory",
+        "title": "Super Fast Prompts: Create Category",
+        "icon": "$(new-folder)"
+      },
+      {
+        "command": "super-fast-prompts.createPrompt",
+        "title": "Super Fast Prompts: Create Prompt",
+        "icon": "$(new-file)"
+      },
+      {
+        "command": "super-fast-prompts.viewPrompts",
+        "title": "Super Fast Prompts: View Prompts"
+      },
+      {
+        "command": "super-fast-prompts.copyPrompt",
+        "title": "Super Fast Prompts: Copy Prompt to Clipboard"
+      },
+      {
+        "command": "super-fast-prompts.editPrompt",
+        "title": "Super Fast Prompts: Edit Prompt"
+      },
+      {
+        "command": "super-fast-prompts.deletePrompt",
+        "title": "Super Fast Prompts: Delete Prompt"
+      },
+      {
+        "command": "super-fast-prompts.syncNow",
+        "title": "Super Fast Prompts: Sync Now",
+        "icon": "$(sync)"
+      },
+      {
+        "command": "super-fast-prompts.setupSync",
+        "title": "Super Fast Prompts: Setup GitHub Sync"
+      },
+      {
+        "command": "super-fast-prompts.pullFromRemote",
+        "title": "Super Fast Prompts: Pull from Remote"
+      },
+      {
+        "command": "super-fast-prompts.pushToRemote",
+        "title": "Super Fast Prompts: Push to Remote"
+      },
+      {
+        "command": "super-fast-prompts.viewSyncHistory",
+        "title": "Super Fast Prompts: View Sync History"
+      },
+      {
+        "command": "super-fast-prompts.refreshView",
+        "title": "Refresh",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "super-fast-prompts.openPromptFromTree",
+        "title": "Open Prompt",
+        "icon": "$(go-to-file)"
+      },
+      {
+        "command": "super-fast-prompts.previewPromptFromTree",
+        "title": "Preview Prompt",
+        "icon": "$(eye)"
+      },
+      {
+        "command": "super-fast-prompts.copyPromptFromTree",
+        "title": "📋 Copy to Clipboard",
+        "icon": "$(copy)"
+      },
+      {
+        "command": "super-fast-prompts.editPromptFromTree",
+        "title": "Edit Prompt",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "super-fast-prompts.deletePromptFromTree",
+        "title": "🗑️ Delete Prompt",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "super-fast-prompts.deleteCategoryFromTree",
+        "title": "🗑️ Delete Category",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "super-fast-prompts.editCategoryFromTree",
+        "title": "Edit Category",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "super-fast-prompts.createPromptInCategory",
+        "title": "📝 Create Prompt in Category",
+        "icon": "$(add)"
+      },
+      {
+        "command": "super-fast-prompts.createSubcategoryInCategory",
+        "title": "📂 Create Subcategory",
+        "icon": "$(new-folder)"
+      },
+      {
+        "command": "super-fast-prompts.moveCategoryUp",
+        "title": "⬆️ Move Category Up",
+        "icon": "$(arrow-up)"
+      },
+      {
+        "command": "super-fast-prompts.moveCategoryDown",
+        "title": "⬇️ Move Category Down",
+        "icon": "$(arrow-down)"
+      },
+      {
+        "command": "super-fast-prompts.movePromptUp",
+        "title": "⬆️ Move Prompt Up",
+        "icon": "$(arrow-up)"
+      },
+      {
+        "command": "super-fast-prompts.movePromptDown",
+        "title": "⬇️ Move Prompt Down",
+        "icon": "$(arrow-down)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "super-fast-prompts.syncNow",
+          "when": "view == superFastPromptsView && config.superFastPrompts.sync.enabled",
+          "group": "navigation@1"
+        },
+        {
+          "command": "super-fast-prompts.createCategory",
+          "when": "view == superFastPromptsView",
+          "group": "navigation@2"
+        },
+        {
+          "command": "super-fast-prompts.createPrompt",
+          "when": "view == superFastPromptsView",
+          "group": "navigation@3"
+        },
+        {
+          "command": "super-fast-prompts.refreshView",
+          "when": "view == superFastPromptsView",
+          "group": "navigation@4"
+        },
+        {
+          "command": "super-fast-prompts.openSettings",
+          "when": "view == superFastPromptsView",
+          "group": "navigation@5"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "super-fast-prompts.movePromptUp",
+          "when": "view == superFastPromptsView && viewItem == prompt",
+          "group": "1_move@1"
+        },
+        {
+          "command": "super-fast-prompts.movePromptDown",
+          "when": "view == superFastPromptsView && viewItem == prompt",
+          "group": "1_move@2"
+        },
+        {
+          "command": "super-fast-prompts.copyPromptFromTree",
+          "when": "view == superFastPromptsView && viewItem == prompt",
+          "group": "2_copy"
+        },
+        {
+          "command": "super-fast-prompts.editPromptFromTree",
+          "when": "view == superFastPromptsView && viewItem == prompt",
+          "group": "inline"
+        },
+        {
+          "command": "super-fast-prompts.deletePromptFromTree",
+          "when": "view == superFastPromptsView && viewItem == prompt",
+          "group": "3_delete"
+        },
+        {
+          "command": "super-fast-prompts.moveCategoryUp",
+          "when": "view == superFastPromptsView && viewItem == category",
+          "group": "1_move@1"
+        },
+        {
+          "command": "super-fast-prompts.moveCategoryDown",
+          "when": "view == superFastPromptsView && viewItem == category",
+          "group": "1_move@2"
+        },
+        {
+          "command": "super-fast-prompts.createSubcategoryInCategory",
+          "when": "view == superFastPromptsView && viewItem == category",
+          "group": "2_create@1"
+        },
+        {
+          "command": "super-fast-prompts.createPromptInCategory",
+          "when": "view == superFastPromptsView && viewItem == category",
+          "group": "2_create@2"
+        },
+        {
+          "command": "super-fast-prompts.editCategoryFromTree",
+          "when": "view == superFastPromptsView && viewItem == category",
+          "group": "inline"
+        },
+        {
+          "command": "super-fast-prompts.deleteCategoryFromTree",
+          "when": "view == superFastPromptsView && viewItem == category",
+          "group": "3_delete"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "bun run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "bun run compile-tests && bun run compile && bun run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@types/vscode": "^1.105.0",
+    "@typescript-eslint/eslint-plugin": "^8.45.0",
+    "@typescript-eslint/parser": "^8.45.0",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2",
+    "eslint": "^9.36.0",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.3",
+    "webpack": "^5.102.0",
+    "webpack-cli": "^6.0.1"
+  },
+  "dependencies": {
+    "simple-git": "^3.30.0"
+  }
+}
