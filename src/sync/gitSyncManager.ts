@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import simpleGit, { SimpleGit } from 'simple-git';
+import type { SimpleGit } from 'simple-git';
 import * as path from 'path';
 import * as fs from 'fs/promises';
 import * as os from 'os';
@@ -80,6 +80,7 @@ export class GitSyncManager {
             }
 
             // Initialize simple-git instance
+            const { default: simpleGit } = await import('simple-git');
             this.git = simpleGit(localPath);
 
             // Configure Git
@@ -135,6 +136,7 @@ export class GitSyncManager {
             await fs.mkdir(parentDir, { recursive: true });
 
             // Clone the repository
+            const { default: simpleGit } = await import('simple-git');
             await simpleGit().clone(authenticatedUrl, localPath, {
                 '--depth': 1, // Shallow clone for faster initial sync
                 '--single-branch': null
@@ -172,6 +174,7 @@ export class GitSyncManager {
             await fs.mkdir(localPath, { recursive: true });
 
             // Initialize Git repository
+            const { default: simpleGit } = await import('simple-git');
             const git = simpleGit(localPath);
             await git.init();
 

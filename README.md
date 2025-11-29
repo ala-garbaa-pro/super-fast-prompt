@@ -6,7 +6,7 @@
 [![Version](https://img.shields.io/visual-studio-marketplace/v/AlaGARBAA.super-fast-prompts?style=flat-square&label=Version)](https://marketplace.visualstudio.com/items?itemName=AlaGARBAA.super-fast-prompts)
 [![Installs](https://img.shields.io/visual-studio-marketplace/i/AlaGARBAA.super-fast-prompts?style=flat-square&label=Installs)](https://marketplace.visualstudio.com/items?itemName=AlaGARBAA.super-fast-prompts)
 [![Rating](https://img.shields.io/visual-studio-marketplace/r/AlaGARBAA.super-fast-prompts?style=flat-square&label=Rating)](https://marketplace.visualstudio.com/items?itemName=AlaGARBAA.super-fast-prompts)
-[![License](https://img.shields.io/github/license/YOUR_USERNAME/super-fast-prompt?style=flat-square&label=License)](LICENSE)
+[![License](https://img.shields.io/github/license/ala-garbaa-pro/super-fast-prompt?style=flat-square&label=License)](LICENSE)
 [![VS Code](https://img.shields.io/badge/VS%20Code-1.104.0+-blue?style=flat-square)](https://code.visualstudio.com/)
 
 **A powerful VS Code extension for managing categorized prompts with GitHub sync, Markdown editing, and quick clipboard access.**
@@ -320,13 +320,13 @@ Follow these steps to publish your extension to the VS Code Marketplace:
 1. **Update `package.json`**
 
    - Replace `AlaGARBAA` with your actual Publisher ID (from step 2)
-   - Replace `YOUR_USERNAME` with your GitHub username
+   - Replace `ala-garbaa-pro` with your GitHub username
    - Replace `YOUR_NAME` with your name
 
 2. **Update `README.md`**
 
    - Replace `AlaGARBAA` with your actual Publisher ID
-   - Replace `YOUR_USERNAME` with your GitHub username
+   - Replace `ala-garbaa-pro` with your GitHub username
    - Add screenshots to the Screenshots section (optional but recommended)
 
 3. **Create a LICENSE file** (if not already created)
