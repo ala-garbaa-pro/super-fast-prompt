@@ -254,13 +254,13 @@ To run the extension in development mode:
 
 ```bash
 # Install dependencies
-pnpm install
+bun install
 
 # Compile the extension
-pnpm run compile
+bun run compile
 
 # Watch for changes
-pnpm run watch
+bun run watch
 
 # Press F5 in VS Code to launch the extension in debug mode
 ```
@@ -341,8 +341,8 @@ Follow these steps to publish your extension to the VS Code Marketplace:
 # Using npm
 npm install -g @vscode/vsce
 
-# Or using pnpm
-pnpm add -g @vscode/vsce
+# Or using bun
+bun add -g @vscode/vsce
 
 # Or using bun
 bun add -g @vscode/vsce
@@ -352,7 +352,7 @@ bun add -g @vscode/vsce
 
 ```bash
 # Build the extension
-pnpm run package
+bun run package
 
 # Create a .vsix package
 vsce package
@@ -390,7 +390,7 @@ When you make changes:
 
 ```bash
 # Update version in package.json, then:
-pnpm run package
+bun run package
 vsce publish
 ```
 
