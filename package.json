@@ -2,7 +2,7 @@
   "name": "super-fast-prompts",
   "displayName": "Super Fast Prompts",
   "description": "Sync prompts to your GitHub repo, copy and paste them easily, and manage categorized prompts",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "icon": "logo.png",
   "publisher": "AlaGARBAA",
   "pricing": "Free",
@@ -12,7 +12,7 @@
   },
   "license": "MIT",
   "engines": {
-    "vscode": "^1.106.0"
+    "vscode": "^1.104.0"
   },
   "categories": [
     "Other"
@@ -44,9 +44,9 @@
       "properties": {
         "superFastPrompts.saveLocation": {
           "type": "string",
-          "default": "~/super-fast-prompts/private",
-          "description": "Location to save prompts and sync with Git. Use ~ for home directory.",
-          "markdownDescription": "Location to save prompts and sync with Git. This is both your working directory and Git repository. Use `~` for home directory."
+          "default": "${userHome}/Documents/github/my-prompts",
+          "description": "Location to save prompts and sync with Git. Use ${userHome} for home directory.",
+          "markdownDescription": "Location to save prompts and sync with Git. This is both your working directory and Git repository. Use `${userHome}` for home directory."
         },
         "superFastPrompts.sync.enabled": {
           "type": "boolean",
@@ -84,11 +84,22 @@
             "Sync when prompts file is saved"
           ]
         },
-        "superFastPrompts.sync.autoSyncInterval": {
+        "superFastPrompts.sync.autoSyncIntervalValue": {
           "type": "number",
-          "default": 300,
-          "minimum": 5,
-          "description": "Auto-sync interval in seconds (minimum 5)"
+          "default": 5,
+          "minimum": 1,
+          "description": "Auto-sync interval amount (e.g., 5 for '5 minutes')"
+        },
+        "superFastPrompts.sync.autoSyncIntervalUnit": {
+          "type": "string",
+          "enum": ["minutes", "hours", "days"],
+          "default": "minutes",
+          "description": "Auto-sync interval unit",
+          "enumDescriptions": [
+            "Sync every X minutes",
+            "Sync every X hours",
+            "Sync every X days"
+          ]
         },
         "superFastPrompts.sync.conflictResolution": {
           "type": "string",
@@ -339,7 +350,7 @@
   "devDependencies": {
     "@types/mocha": "^10.0.10",
     "@types/node": "^22.19.1",
-    "@types/vscode": "^1.106.1",
+    "@types/vscode": "1.102.0",
     "@typescript-eslint/eslint-plugin": "^8.48.0",
     "@typescript-eslint/parser": "^8.48.0",
     "@vscode/test-cli": "^0.0.11",

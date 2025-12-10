@@ -540,10 +540,12 @@ Thumbs.db
         let localPath = config.get<string>('saveLocation', '');
 
         if (!localPath) {
-            localPath = path.join(os.homedir(), 'super-fast-prompts', 'private');
+            localPath = path.join(os.homedir(), 'Documents', 'github', 'my-prompts');
         }
 
-        // Expand ~ to home directory
+        // Expand ${userHome} to home directory (VS Code variable)
+        localPath = localPath.replace(/\$\{userHome\}/g, os.homedir());
+        // Expand ~ to home directory (Unix convention)
         return localPath.replace(/^~/, os.homedir());
     }
 
@@ -957,7 +959,23 @@ Thumbs.db
         const mode = config.get<string>('mode', 'manual');
 
         if (mode === 'automatic') {
-            const interval = config.get<number>('autoSyncInterval', 300) * 1000;
+            const value = config.get<number>('autoSyncIntervalValue', 5);
+            const unit = config.get<string>('autoSyncIntervalUnit', 'minutes');
+            
+            // Calculate interval in milliseconds
+            let intervalMs: number;
+            switch (unit) {
+                case 'hours':
+                    intervalMs = value * 60 * 60 * 1000;
+                    break;
+                case 'days':
+                    intervalMs = value * 24 * 60 * 60 * 1000;
+                    break;
+                case 'minutes':
+                default:
+                    intervalMs = value * 60 * 1000;
+                    break;
+            }
 
             this.autoSyncTimer = setInterval(async () => {
                 try {
@@ -965,7 +983,7 @@ Thumbs.db
                 } catch (error) {
                     console.error('Auto-sync failed:', error);
                 }
-            }, interval);
+            }, intervalMs);
         }
     }
 
@@ -1005,7 +1023,8 @@ Thumbs.db
                     enabled: config.get('sync.enabled'),
                     repositoryUrl: config.get('sync.repositoryUrl'),
                     branch: config.get('sync.branch'),
-                    autoSyncInterval: config.get('sync.autoSyncInterval'),
+                    autoSyncIntervalValue: config.get('sync.autoSyncIntervalValue'),
+                    autoSyncIntervalUnit: config.get('sync.autoSyncIntervalUnit'),
                     mode: config.get('sync.mode'),
                     conflictResolution: config.get('sync.conflictResolution')
                 },

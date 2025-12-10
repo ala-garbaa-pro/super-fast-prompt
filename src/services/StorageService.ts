@@ -28,7 +28,9 @@ export class StorageService {
 
     if (configuredPath) {
       const os = require("os");
-      // Expand ~ to home directory
+      // Expand ${userHome} to home directory (VS Code variable)
+      configuredPath = configuredPath.replace(/\$\{userHome\}/g, os.homedir());
+      // Expand ~ to home directory (Unix convention)
       configuredPath = configuredPath.replace(/^~/, os.homedir());
 
       // Handle Git Bash style paths on Windows (e.g., /c/Users/...)
@@ -43,7 +45,7 @@ export class StorageService {
     }
 
     // Default location
-    return path.join(require("os").homedir(), "super-fast-prompts", "private");
+    return path.join(require("os").homedir(), "Documents", "github", "my-prompts");
   }
 
   /**

@@ -152,6 +152,22 @@ export async function activate(context: vscode.ExtensionContext) {
             await promptManager.initialize();
             treeViewProvider.refresh();
           }
+          
+          // Check for sync-related settings changes that require reload
+          if (
+            e.affectsConfiguration("superFastPrompts.sync.autoSyncIntervalValue") ||
+            e.affectsConfiguration("superFastPrompts.sync.autoSyncIntervalUnit") ||
+            e.affectsConfiguration("superFastPrompts.sync.mode")
+          ) {
+            const reload = await vscode.window.showInformationMessage(
+              "Sync settings changed. Reload window to apply changes?",
+              "Reload",
+              "Later"
+            );
+            if (reload === "Reload") {
+              vscode.commands.executeCommand("workbench.action.reloadWindow");
+            }
+          }
         })
       );
 
